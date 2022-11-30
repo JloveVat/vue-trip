@@ -1,8 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import useCityStore from '@/stores/modules/city';
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import useCityStore from '@/stores/modules/city'
+
+import CityGroup from './cpns/CityGroup.vue'
 
 // import { getCityAll } from '@/services'
 
@@ -17,8 +19,6 @@ const cancelClick = () => {
 // tab的切换
 const tabActive = ref(0)
 
-
-
 /**
  * 1.如果网络请求太对, 页面组件中就包含大量的对于网络请求和数据的处理逻辑
  * 2.如果页面封装了很多的子组件, 子组件需要这些数据, 我们必须一步步将数据传递过去(props)
@@ -28,7 +28,6 @@ const tabActive = ref(0)
 // getCityAll().then(res => {
 //   allCity.value = res.data
 // })
-
 
 // 从Store中获取数据
 const cityStore = useCityStore()
@@ -54,8 +53,8 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
       </van-tabs>
     </div>
     <div class="content">
-      <template v-for="item in currentGroup?.cities">
-        <p>{{ item }}</p>
+      <template v-for="(value, key, index) in allCities">
+        <CityGroup v-show="tabActive === key" :groupData="value"></CityGroup>
       </template>
     </div>
   </div>
@@ -74,6 +73,11 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
 
   // .content {
   //   margin-top: 98px;
+  // }
+
+  // .top {
+  //   position: relative;
+  //   z-index: 9;
   // }
 
   // 局部滚动
