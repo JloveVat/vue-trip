@@ -1,6 +1,9 @@
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router';
+import useCityStore from '@/stores/modules/city'
 
+// 定义props
 const props = defineProps({
   groupData: {
     type: Object,
@@ -8,11 +11,24 @@ const props = defineProps({
   }
 })
 
+// 动态的索引
 const indexList = computed(() => {
   const list = props.groupData.cities.map(item => item.group)
   list.unshift('#')
   return list
 })
+
+// 监听城市的点击
+const router = useRouter()
+const cityStore = useCityStore()
+const cityClick = (city) => {
+  console.log(city.cityName);
+  // 选中当前的城市
+  cityStore.currentCity = city
+
+  // 返回上一级
+  router.back()
+}
 </script>
 
 <template>
@@ -21,16 +37,15 @@ const indexList = computed(() => {
       <van-index-anchor index="热门" />
       <div class="list">
         <template v-for="(city, index) in groupData.hotCities">
-          <div class="city">
+          <div class="city" @click="cityClick(city)">
             {{ city.cityName }}
           </div>
         </template>
       </div>
-      <van-cell title="深圳" />
       <template v-for="(item, index) in groupData.cities" :key="index">
         <van-index-anchor :index="item.group" />
-        <template v-for="(iten, indey) in item.cities" :key="indey">
-          <van-cell :title="iten.cityName" />
+        <template v-for="(city, indey) in item.cities" :key="indey">
+          <van-cell :title="city.cityName" @click="cityClick(city)" />
         </template>
       </template>
     </van-index-bar>

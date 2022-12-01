@@ -1,5 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import useCityStore from '@/stores/modules/city'
 
 const router = useRouter()
 
@@ -16,18 +18,28 @@ const positionClick = () => {
     console.log('获取位置失败');
   })
 }
+
+// 当前城市
+const cityStore = useCityStore()
+const { currentCity } = storeToRefs(cityStore)
 </script>
 
 <template>
   <div class="search-box">
+    <!-- 我的位置 -->
     <div class="location">
       <span class="city" @click="cityClick">
-        <span>深圳</span>
+        <span>{{ currentCity.cityName }}</span>
       </span>
       <div class="position" @click="positionClick">
         <span class="text">我的位置</span>
         <img src="@/assets/img/home/icon_location.png" alt="">
       </div>
+    </div>
+
+    <!-- 日期范围 -->
+    <div class="date-range">
+
     </div>
   </div>
 </template>
