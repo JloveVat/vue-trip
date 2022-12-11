@@ -1,18 +1,22 @@
 <script setup>
+import { useRoute } from 'vue-router';
+import Tabbar from '@/components/tabbar/Tabbar.vue'
+
+// 隐藏底部tabbar
+// const route = useRoute()
 </script>
 
 <template>
   <div class="app">
     <RouterView></RouterView>
-    <RouterLink to="/home">首页-</RouterLink>
-    <RouterLink to="/favor">收藏-</RouterLink>
-    <RouterLink to="/order">订单-</RouterLink>
-    <RouterLink to="/message">消息</RouterLink>
+    <!-- 隐藏底部tabbar -->
+    <!-- <Tabbar v-if="!route.meta.hideTabbar"></Tabbar> -->
+    <Tabbar></Tabbar>
   </div>
 </template>
 
 <style scoped>
-.app{
-  font-family: '得意黑';
+.app {
+  /* font-family: '得意黑'; */
 }
 </style>
