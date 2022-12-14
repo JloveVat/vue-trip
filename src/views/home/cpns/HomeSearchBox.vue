@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import useCityStore from '@/stores/modules/city'
+import useHomeStore from '@/stores/modules/home'
 import { formatMonthDay, getDiffDays } from '@/utils/formatDate'
 
 const router = useRouter()
@@ -40,6 +41,10 @@ const onConfirm = (value) => {
   stayCount.value = getDiffDays(value[0], value[1])
   showCalendar.value = false
 }
+
+// 热门建议
+const homeStore = useHomeStore()
+const { hotSuggests } = storeToRefs(homeStore)
 
 </script>
 
@@ -79,8 +84,21 @@ const onConfirm = (value) => {
       <div class="start">价格不限</div>
       <div class="end">人数不限</div>
     </div>
+
     <!-- 关键字 -->
     <div class="section keyword bottom-gray-line">关键字/位置/民宿名</div>
+
+    <!-- 热门建议 -->
+    <div class="section hot-suggest">
+      <template v-for="(item, index) in hotSuggests" :key="index">
+        <div class="item" :style="{
+          color: item.tagText.color,
+          background: item.tagText.background.color
+        }">
+          {{ item.tagText.text }}
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -104,18 +122,17 @@ const onConfirm = (value) => {
 
   .position {
     width: 74px;
-    display: flex;
-    justify-content: right;
 
     .text {
-      align-self: flex-end;
       font-size: 12px;
+      line-height: 18px;
       color: #666;
     }
 
     img {
       width: 18px;
       height: 18px;
+      margin-top: -1px;
       margin-left: 6px;
     }
   }
@@ -173,6 +190,17 @@ const onConfirm = (value) => {
 .price-counter {
   .start {
     border-right: 1px solid var(--line-color);
+  }
+}
+
+.hot-suggest {
+  margin: 10px;
+
+  .item {
+    margin: 4px 8px;
+    padding: 3px 5px;
+    border-radius: 14px;
+    font-size: 12px;
   }
 }
 </style>

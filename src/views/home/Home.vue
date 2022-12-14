@@ -1,7 +1,11 @@
 <script setup>
-
+import useHomeStore from '@/stores/modules/home';
 import HomeNavBar from './cpns/HomeNavBar.vue'
 import HomeSearchBox from './cpns/HomeSearchBox.vue'
+
+const homeStore = useHomeStore()
+homeStore.fetchHotSuggestData()
+
 </script>
 
 <template>
