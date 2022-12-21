@@ -33,6 +33,11 @@ const routes = [
     // meta: {
     //   hideTabbar: true
     // }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/search/Search.vue'),
   }
 ]
 

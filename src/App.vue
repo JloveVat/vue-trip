@@ -15,7 +15,7 @@ import Tabbar from '@/components/tabbar/Tabbar.vue'
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .app {
   /* font-family: '得意黑'; */
 }
