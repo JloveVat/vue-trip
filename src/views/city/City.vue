@@ -80,6 +80,8 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
   //   z-index: 9;
   // }
 
+  height: 100vh;
+
   // 局部滚动
   .content {
     height: calc(100vh - 98px);

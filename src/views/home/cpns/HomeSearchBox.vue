@@ -14,6 +14,7 @@ const cityClick = () => {
   router.push('city')
 }
 
+// 获取位置信息
 const positionClick = () => {
   navigator.geolocation.getCurrentPosition(res => {
     console.log('获取位置成功', res);
@@ -45,6 +46,18 @@ const onConfirm = (value) => {
 // 热门建议
 const homeStore = useHomeStore()
 const { hotSuggests } = storeToRefs(homeStore)
+
+// 开始搜索
+const searchBtnClick = () => {
+  router.push({
+    path: '/search',
+    query: {
+      startDate: startDate.value,
+      endDate: endDate.value,
+      currentCity: currentCity.value.cityName
+    }
+  })
+}
 
 </script>
 
@@ -98,6 +111,11 @@ const { hotSuggests } = storeToRefs(homeStore)
           {{ item.tagText.text }}
         </div>
       </template>
+    </div>
+
+    <!-- 搜索按钮 -->
+    <div class="section search-btn">
+      <div class="btn" @click="searchBtnClick">开始搜索</div>
     </div>
   </div>
 </template>
@@ -195,12 +213,28 @@ const { hotSuggests } = storeToRefs(homeStore)
 
 .hot-suggest {
   margin: 10px;
+  height: auto;
 
   .item {
-    margin: 4px 8px;
-    padding: 3px 5px;
+    margin: 3px 5px;
+    padding: 5px 8px;
     border-radius: 14px;
     font-size: 12px;
+  }
+}
+
+.search-btn {
+  .btn {
+    width: 342px;
+    height: 38px;
+    max-height: 50px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    background-image: var(--theme-linear-gradient);
   }
 }
 </style>
