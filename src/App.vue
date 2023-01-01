@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import Tabbar from '@/components/tabbar/Tabbar.vue'
+import Loading from './components/loading/Loading.vue';
 
 // 隐藏底部tabbar
 // const route = useRoute()
@@ -12,6 +13,7 @@ import Tabbar from '@/components/tabbar/Tabbar.vue'
     <!-- 隐藏底部tabbar -->
     <!-- <Tabbar v-if="!route.meta.hideTabbar"></Tabbar> -->
     <Tabbar></Tabbar>
+    <Loading></Loading>
   </div>
 </template>
 
