@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import useCityStore from '@/stores/modules/city'
 import useHomeStore from '@/stores/modules/home'
+import useMainStore from '@/stores/modules/main'
 import { formatMonthDay, getDiffDays } from '@/utils/formatDate'
 
 const router = useRouter()
@@ -28,18 +29,17 @@ const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
 
 // 日期范围处理
-const nowDate = new Date()
-const newDate = new Date()
-newDate.setDate(nowDate.getDate() + 1)
-const startDate = ref(formatMonthDay(nowDate))
-const endDate = ref(formatMonthDay(newDate))
-const stayCount = ref(getDiffDays(nowDate, newDate))
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
+
+const startDateStr = computed(() => { return formatMonthDay(startDate.value) })
+const endDateStr = computed(() => { return formatMonthDay(endDate.value) })
+const stayCount = computed(() => { return getDiffDays(startDate.value, endDate.value) })
 
 const showCalendar = ref(false)
 const onConfirm = (value) => {
-  startDate.value = formatMonthDay(value[0])
-  endDate.value = formatMonthDay(value[1])
-  stayCount.value = getDiffDays(value[0], value[1])
+  mainStore.startDate = value[0]
+  mainStore.endDate = value[1]
   showCalendar.value = false
 }
 
@@ -79,14 +79,14 @@ const searchBtnClick = () => {
       <div class="start">
         <div class="date">
           <span class="tip">入住</span>
-          <span class="time">{{ startDate }}</span>
+          <span class="time">{{ startDateStr }}</span>
         </div>
         <div class="stay">共 {{ stayCount }} 晚</div>
       </div>
       <div class="end">
         <div class="date">
           <span class="tip">离店</span>
-          <span class="time">{{ endDate }}</span>
+          <span class="time">{{ endDateStr }}</span>
         </div>
       </div>
     </div>

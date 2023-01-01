@@ -1,16 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import tabbarData from '@/assets/data/tabbar'
 import { getAssetURL } from '@/utils/loadAssetsImg'
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
 const currentIndex = ref(0)
+watch(route, (newRoute) => {
+  const index = tabbarData.findIndex(item => item.path === newRoute.path)
+  if (index === -1) return
+  currentIndex.value = index
+})
 </script>
 
 <template>
   <div class="tabbar">
-    <van-tabbar v-model="currentIndex" active-color="#ff9854">
+    <van-tabbar v-model="currentIndex" active-color="#ff9854" route>
       <template v-for="(item, index) in tabbarData" :key="item.path">
-        <van-tabbar-item :to="item.path" class="tabbar-item">
+        <van-tabbar-item replace :to="item.path" class="tabbar-item">
           <span>{{ item.text }}</span>
           <template #icon>
             <img v-if="currentIndex !== index" :src="getAssetURL(item.image)" />
